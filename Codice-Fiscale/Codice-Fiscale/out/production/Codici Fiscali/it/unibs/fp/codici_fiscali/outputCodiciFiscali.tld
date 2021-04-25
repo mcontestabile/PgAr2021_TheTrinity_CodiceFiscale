@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<persone numero = "1000" >
+    <persona> id = ""  </persona>
+       <nome></nome>
+       <cognome></cognome>
+       <sesso></sesso>
+       <comune_nascita></comune_nascita>
+       <data_nascita></data_nascita>
+</persone>

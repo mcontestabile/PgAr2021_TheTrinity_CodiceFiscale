@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<output>
+    <persone>
+        <persona numero = "0">
+            <nome></nome>
+            <cognome></cognome>
+            <sesso></sesso>
+            <comune_nascita></comune_nascita>
+            <data_nascita></data_nascita>
+            <codice_fiscale></codice_fiscale> <!-->se presente in codiciFiscali.xml inserirlo, altrimenti scivere ASSENTE<-->
+        </persona>
+     <codici>
+         <invalidi>
+             <!--->Inseriamo i codici fiscali invalidi<-->
+         </invalidi>
+         <spaiati>
+             <!--->Inseriamo i codici fiscali che non corrispondono a nessuna persona<-->
+         </spaiati>
+     </codici>
+    </persone>
+
+    <!-->Altri codici fiscali generati col programma java<-->
+</output>
