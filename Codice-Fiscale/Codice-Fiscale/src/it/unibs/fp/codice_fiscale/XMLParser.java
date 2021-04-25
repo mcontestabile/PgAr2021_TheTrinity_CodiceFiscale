@@ -73,7 +73,7 @@ public class XMLParser {
                         if (informations.getNodeType() == Node.ELEMENT_NODE) {
                             Element informationElement = (Element) informations;
                             //Otterremo i dati anagrafici della persona i
-                            System.out.println("          " + informationElement.getTagName() + " : " + informationElement.getAttribute("value"));
+                            System.out.println("              " + informationElement.getTagName() + " : " + informationElement.getTextContent()) ;
                         }
                     }
                 }
@@ -105,11 +105,11 @@ public class XMLParser {
              * nodi figli, quindi l'operazione è molto più semplice.
              */
 
-            NodeList fiscalCodesList = document.getElementsByTagName("persona");
+            NodeList fiscalCodesList = document.getElementsByTagName("codici");
             for (int i = 0; i < fiscalCodesList.getLength(); i++) {
                 Node fiscalCode = fiscalCodesList.item(i);
                 Element fc = (Element) fiscalCode;
-                System.out.println("          " + fc.getTagName() + fc.getAttribute("codice"));
+                System.out.println("          " + fc.getTagName() + fc.getTextContent());
 
             /* Questo if ci permette di identificare i singoli attributi
             +  della persona. ELEMENT_NODE = 1 (Fonte: la classe Node.java),
