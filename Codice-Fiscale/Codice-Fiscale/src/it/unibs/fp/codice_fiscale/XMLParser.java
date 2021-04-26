@@ -109,7 +109,7 @@ public class XMLParser {
             for (int i = 0; i < fiscalCodesList.getLength(); i++) {
                 Node fiscalCode = fiscalCodesList.item(i);
                 Element fc = (Element) fiscalCode;
-                System.out.println("          " + fc.getTagName() + fc.getTextContent());
+                System.out.println("" + fc.getTagName() + fc.getTextContent());
 
             /* Questo if ci permette di identificare i singoli attributi
             +  della persona. ELEMENT_NODE = 1 (Fonte: la classe Node.java),
@@ -124,7 +124,66 @@ public class XMLParser {
         } catch (ParserConfigurationException | SAXException | IOException exception) {
             exception.printStackTrace();
         }
+
+        System.out.println();
+        System.out.println();
     }
+
+        public void parseTheXMLComuni () {
+            // 1. Get the Document Builder.
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+
+            try {
+                DocumentBuilder builder = factory.newDocumentBuilder();
+
+                // 2. Get document.
+                Document document = builder.parse(new File("comuni.xml"));
+
+                // 3. Normalize the XML structure.
+                document.getDocumentElement().normalize();
+
+                // 4. Get all the element by the tag name.
+                /*
+                 * Cio' che caratterizza il file xml è che ha i tag di
+                 * apertura e chiusura "persone", che sono i fulcro
+                 * del documento. Tuttavia, a noi interessano anche le
+                 * sottocategorie che permettono la generazione del cf
+                 * (genere, luogo di nascita...). Queste le recuperiamo
+                 * attraverso il ciclo for.
+                 */
+
+                NodeList townsList = document.getElementsByTagName("comuni");
+                for (int i = 0; i < townsList.getLength(); i++) {
+                    Node town = townsList.item(i);
+
+            /* Questo if ci permette di identificare i singoli attributi
+            +  della persona. ELEMENT_NODE = 1 (Fonte: la classe Node.java),
+            *  ovvero il nodo è <code>Attr</code>
+             */
+                    if (town.getNodeType() == Node.ELEMENT_NODE) {
+                        // Inzio a prendere le singole persone.
+                        Element townElement = (Element) town;
+                        System.out.println("Persona numero " + townElement.getAttribute("comune"));
+
+                        // Prendo i nodi figli, ovvero i dati anagrafici.
+                        NodeList townInformations = town.getChildNodes();
+                        for (int c = 0; c < townInformations.getLength(); c++) {
+                            Node informations = townInformations.item(c);
+                            if (informations.getNodeType() == Node.ELEMENT_NODE) {
+                                Element informationElement = (Element) informations;
+                                //Otterremo i dati anagrafici della persona i
+                                System.out.println("" + informationElement.getTagName() + " : " + informationElement.getTextContent()) ;
+                            }
+                        }
+                    }
+                }
+            } catch (ParserConfigurationException | SAXException | IOException exception) {
+                exception.printStackTrace();
+            }
+
+            System.out.println();
+            System.out.println();
+        }
 }
 // Codice slide lezione 4
 /*XMLInputFactory xmlif = null;
