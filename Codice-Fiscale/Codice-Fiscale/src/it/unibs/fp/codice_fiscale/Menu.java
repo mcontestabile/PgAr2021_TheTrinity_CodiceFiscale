@@ -1,14 +1,35 @@
 package it.unibs.fp.codice_fiscale;
 
+import javax.xml.stream.XMLStreamException;
+import java.util.ArrayList;
+
 public class Menu {
-    public void codiceFiscaleGestion() {
-        XMLParser streamReader = new XMLParser();
-        streamReader.parseTheXMLInputDati();
+    public void fiscalCodeGestion() {
+        XMLParser xmlParserP = new XMLParser("inputPersone.xml");
+        try {
+            ArrayList<Person> persons = xmlParserP.parseXML(Person.class);
+            for (Person p : persons)
+                System.out.println(p.toString());
+        } catch (XMLStreamException e) {
+            System.out.println(e.getMessage());
+        }
 
-        XMLParser streamReader2 = new XMLParser();
-        streamReader2.parseTheXMLcodiciFiscali();
+        XMLParser xmlParserFC = new XMLParser("codiciFiscali.xml");
+        try {
+            ArrayList<FiscalCode> codes = xmlParserFC.parseXML(FiscalCode.class);
+            for (FiscalCode c : codes)
+                System.out.println(c.toString());
+        } catch (XMLStreamException e) {
+            System.out.println(e.getMessage());
+        }
 
-        XMLParser streamReader3 = new XMLParser();
-        streamReader3.parseTheXMLComuni();
+        XMLParser xmlParserTw = new XMLParser("comuni.xml");
+        try {
+            ArrayList<Town> towns = xmlParserTw.parseXML(Town.class);
+            for (Town t : towns)
+                System.out.println(t.toString());
+        } catch (XMLStreamException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
