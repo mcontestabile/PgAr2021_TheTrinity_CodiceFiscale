@@ -71,7 +71,7 @@ public class XMLWriter {
                 xmlWriter.writeCharacters(t.getTagValue());
                 if (!singleAttribute) xmlWriter.writeEndElement();
             }
-            xmlWriter.writeCharacters("\n\t");
+            if (!singleAttribute) xmlWriter.writeCharacters("\n\t");
             xmlWriter.writeEndElement();
         } catch (Exception e) {
             e.printStackTrace();
