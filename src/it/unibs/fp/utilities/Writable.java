@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
+/**
+ * This Interface allows the writing of the .xml file.
+ */
 public interface Writable {
     HashMap<String, Supplier<String>> getters = new HashMap<>();
 

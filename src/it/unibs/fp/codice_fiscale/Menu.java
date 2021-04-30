@@ -1,14 +1,32 @@
 package it.unibs.fp.codice_fiscale;
 
+import it.unibs.fp.utilities.XMLParser;
+import it.unibs.fp.utilities.XMLWriter;
+
 import javax.xml.stream.XMLStreamException;
 import java.util.ArrayList;
 
+/**
+ * This class controls the entire Fiscal Code program.
+ * We have the parsing of the XML, the generation of
+ * the fiscal code and the writing of the output file
+ * .xml codiciPersone.xml.
+ */
 public class Menu {
+    /**
+     * Parsing phase, we get the iput dates that
+     * allows to generate the Fiscal Codes and
+     * to compare the fc, made by FiscalCode class,
+     * with the ones in the .xml file codiciFiscali.xml.
+     */
+
+    /**
+     * Writing of the output .xml file.
+     */
     public void fiscalCodeGestion() {
         ArrayList<Person> persons = null;
         ArrayList<FiscalCode> codes = null;
         ArrayList<Town> towns = null;
-
         try {
             XMLParser xmlParserP = new XMLParser("inputPersone.xml");
             persons = xmlParserP.parseXML(Person.class);

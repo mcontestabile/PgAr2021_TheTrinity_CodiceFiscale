@@ -6,6 +6,15 @@ import it.unibs.fp.utilities.Writable;
 
 import java.util.ArrayList;
 
+/**
+ * This Class implements Parsable and Writable, because we
+ * need the input dates (using Parsable Interface), but
+ * also to write the dates in the output file
+ * (using Writable Interface). Person is also important,
+ * because is used in FiscalCode Class, because each
+ * person has its personal fiscal code, so each personal
+ * information is given by Person Class.
+ */
 public class Person implements Parsable, Writable {
     private String name;
     private String surname;
@@ -17,6 +26,11 @@ public class Person implements Parsable, Writable {
 
     private static final ArrayList<String> attributeStrings = new ArrayList<>();
 
+    /*
+     * The keyword static is used to create methods that will exist independently
+     * of any instances created for the class. Static methods do not use
+     * any instance variables of any object of the class they are defined in.
+     */
     static {
         attributeStrings.add("nome");
         attributeStrings.add("cognome");
@@ -25,6 +39,11 @@ public class Person implements Parsable, Writable {
         attributeStrings.add("data_nascita");
     }
 
+    /**
+     * This method allows the setting of each personal
+     * information of each person in the file .xml
+     * inputPersone.xml.
+     */
     public Person() {
         methods.put(attributeStrings.get(0), this::setName);
         methods.put(attributeStrings.get(1), this::setSurname);
@@ -34,45 +53,88 @@ public class Person implements Parsable, Writable {
         methods.put("id", this::setId);
     }
 
+    /**
+     * @return a string that is name.
+     */
     public String getName() {
         return name;
     }
+
+    /**
+     * @param name, initialization.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * @return a string that is surname.
+     */
     public String getSurname() {
         return surname;
     }
+
+    /**
+     * @param surname, initialization.
+     */
     public void setSurname(String surname) {
         this.surname = surname;
     }
 
+    /**
+     * @return a string that is gender.
+     */
     public String getGender() {
         return gender;
     }
+
+    /**
+     * @param gender, initialization.
+     */
     public void setGender(String gender) {
         this.gender = gender;
     }
 
+    /**
+     * @return a string that is town.
+     */
     public String getTown() {
         return town;
     }
+
+    /**
+     * @param town, initialization.
+     */
     public void setTown(String town) {
         this.town = town;
     }
 
+    /**
+     * @return a string that is date of birth.
+     */
     public String getDateOfBirth() {
         return dateOfBirth;
     }
+
+    /**
+     * @param dateOfBirth, initialization.
+     */
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
+    /**
+     * @param id, initialization.
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+
+    /**
+     * This method sets the parameter with the attributes
+     * contained in the file .xml inputPersone.xml.
+     */
     public void setGetters() {
         getters.put(attributeStrings.get(0), this::getName);
         getters.put(attributeStrings.get(1), this::getSurname);

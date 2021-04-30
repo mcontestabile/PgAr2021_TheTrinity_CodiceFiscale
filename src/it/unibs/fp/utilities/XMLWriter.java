@@ -1,4 +1,4 @@
-package it.unibs.fp.codice_fiscale;
+package it.unibs.fp.utilities;
 
 import it.unibs.fp.utilities.XMLTag;
 import it.unibs.fp.utilities.Writable;
@@ -8,6 +8,10 @@ import javax.xml.stream.XMLStreamWriter;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 
+/**
+ * This Interface allows the process of
+ * writing of the .xml file.
+ */
 public class XMLWriter {
     private XMLStreamWriter xmlWriter = null;
     public final static String ENCODING = "utf-8";
@@ -17,6 +21,12 @@ public class XMLWriter {
     public static final int SAME_LEVEL = 0;
     public static final int DECREMENT_LEVEL = -1;
 
+    /**
+     * @param fileName, it generates a file .xml that has a name
+     *                  that is a String. The name is given
+     *                  by the user. As the exercise's text
+     *                  says, we have to call it outputPersone.
+     */
     public XMLWriter(String fileName) {
         try {
             XMLOutputFactory xmlFactory = XMLOutputFactory.newInstance();
@@ -27,6 +37,10 @@ public class XMLWriter {
         }
     }
 
+    /**
+     * @param openingTag,  it generates the opening tag of the
+     *                     fileName.xml.
+     */
     public void writeOpeningTagXML(String openingTag) {
         try {
             writeTabs(INCREMENT_LEVEL);
@@ -36,6 +50,11 @@ public class XMLWriter {
         }
     }
 
+    /**
+     * @param closeDocument,  if true, it close document
+     *                        of the fileName.xml.
+     * this method closes an open tag.
+     */
     public void writeClosingTagXML(boolean closeDocument) {
         try {
             writeTabs(DECREMENT_LEVEL);
@@ -50,6 +69,12 @@ public class XMLWriter {
         }
     }
 
+    /**
+     * @param obj refers to the Class of T
+     * @param <T> means "Thing", a generic object
+     * This method writes the Object that we need in
+     * the file .xml fileName.xml.
+     */
     public <T extends Writable> void writeObjectXML(T obj) {
         ArrayList<XMLTag> elements;
         XMLTag startXMLTag;
@@ -84,6 +109,17 @@ public class XMLWriter {
         }
     }
 
+    /**
+     * @param objList list of T Objects that we have to write
+     * @param arrayName custom tag for the array
+     * @param arrayAttribute array's custom attribute
+     * @param attributeValue attribute value
+     * @param openingTag cml document's opening tag
+     * @param <T> means "Thing", a generic object
+     * This method writes the ArrayList that we need in
+     * the file .xml fileName.xml, considering the parameters
+     * we would like to add in the ArrayList.
+     */
     public <T extends Writable> void writeArrayListXML(ArrayList<T> objList, String arrayName, String arrayAttribute, String attributeValue, String openingTag) {
         try {
             if (openingTag != null) writeOpeningTagXML(openingTag);
@@ -106,14 +142,30 @@ public class XMLWriter {
         }
     }
 
+    /**
+     * This method writes the ArrayList that we need in
+     * the file .xml fileName.xml, considering the parameters
+     * we would like to add in teh ArrayList.
+     */
     public <T extends Writable> void writeArrayListXML(ArrayList<T> objList, String arrayName, String arrayAttribute, String attributeValue) {
         writeArrayListXML(objList, arrayName, arrayAttribute, attributeValue, null);
     }
 
+    /**
+     * This method writes the ArrayList that we need in
+     * the file .xml fileName.xml, considering the parameters
+     * we would like to add in teh ArrayList.
+     */
     public <T extends Writable> void writeArrayListXML(ArrayList<T> objList) {
         writeArrayListXML(objList, null, null, null);
     }
 
+    /**
+     *
+     * @param changeLevel if 1, it increases tabLevel (number of tabs)
+     *                    if -1, it decreases tabLevel
+     * @throws XMLStreamException managed by others methods.
+     */
     public void writeTabs(int changeLevel) throws XMLStreamException {
         if (changeLevel == -1) tabLevel--;
         xmlWriter.writeCharacters("\n");

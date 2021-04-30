@@ -1,4 +1,4 @@
-package it.unibs.fp.codice_fiscale;
+package it.unibs.fp.utilities;
 
 import it.unibs.fp.utilities.Parsable;
 import it.unibs.fp.utilities.XMLTag;
@@ -11,6 +11,11 @@ import java.io.FileInputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
+/**
+ * This class allows the process of parsing
+ * of the input files we have to analyse and
+ * use in out Codice Fiscale program.
+ */
 public class XMLParser {
     private XMLStreamReader xmlReader = null;
 
@@ -23,16 +28,16 @@ public class XMLParser {
         }
     }
 
-    public Person getPerson(Person p) {
-        return p;
-    }
-    public Town getTown(Town t) {
-        return t;
-    }
-
+    /**
+     * @param obj refers to the Class of T
+     * @param <T> means "Thing", a generic object
+     * @return an ArrayList containing the parsed list
+     * @throws XMLStreamException
+     * Parsing the file xml that we need to parse.
+     */
     public <T extends Parsable> ArrayList<T> parseXML(Class<T> obj) throws XMLStreamException {
         String elementName = null;
-        XMLTag XMLTag = null;
+        XMLTag XMLTag;
         ArrayList<T> objList = new ArrayList<>();
         T t = null;
         try {
@@ -72,7 +77,7 @@ public class XMLParser {
 
                 case XMLStreamConstants.CHARACTERS -> {
                     if (xmlReader.getText().trim().length() > 0 && elementName != null) {
-                            XMLTag = new XMLTag(elementName, xmlReader.getText());
+                        XMLTag = new XMLTag(elementName, xmlReader.getText());
                         t.setAttribute(XMLTag);
                     }
                 }

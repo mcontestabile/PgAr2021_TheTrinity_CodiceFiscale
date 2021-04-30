@@ -3,6 +3,9 @@ package it.unibs.fp.utilities;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
+/**
+ * This Interface allows the parsing of the .xml file.
+ */
 public interface Parsable {
     HashMap<String, Consumer<String>> methods = new HashMap<>();
 
