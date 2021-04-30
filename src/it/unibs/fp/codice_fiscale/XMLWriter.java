@@ -12,6 +12,10 @@ public class XMLWriter {
     private XMLStreamWriter xmlWriter = null;
     public final static String ENCODING = "utf-8";
     public final static String VERSION = "1.0";
+    public static int tabLevel = 0;
+    public static final int INCREMENT_LEVEL = 1;
+    public static final int SAME_LEVEL = 0;
+    public static final int DECREMENT_LEVEL = -1;
 
     public XMLWriter(String fileName) {
         try {
@@ -25,7 +29,7 @@ public class XMLWriter {
 
     public void writeOpeningTagXML(String openingTag) {
         try {
-            xmlWriter.writeCharacters("\n");
+            writeTabs(INCREMENT_LEVEL);
             xmlWriter.writeStartElement(openingTag);
         } catch (Exception e) {
             e.printStackTrace();
@@ -34,7 +38,7 @@ public class XMLWriter {
 
     public void writeClosingTagXML(boolean closeDocument) {
         try {
-            xmlWriter.writeCharacters("\n");
+            writeTabs(DECREMENT_LEVEL);
             xmlWriter.writeEndElement();
             if (closeDocument) {
                 xmlWriter.writeEndDocument();
@@ -52,7 +56,8 @@ public class XMLWriter {
         boolean singleAttribute = false;
         try {
             startXMLTag = obj.getStartTag();
-            xmlWriter.writeCharacters("\n\t");
+
+            writeTabs(!singleAttribute ? INCREMENT_LEVEL : SAME_LEVEL);
             xmlWriter.writeStartElement(startXMLTag.getTagName());
 
             if (startXMLTag.getTagAttribute() != null) {
@@ -65,13 +70,14 @@ public class XMLWriter {
                 if (t.getTagName().equals(startXMLTag.getTagName()) && elements.size() == 1)
                     singleAttribute = true;
                 if (!singleAttribute) {
-                    xmlWriter.writeCharacters("\n\t\t");
+                    writeTabs(SAME_LEVEL);
                     xmlWriter.writeStartElement(t.getTagName());
                 }
                 xmlWriter.writeCharacters(t.getTagValue());
                 if (!singleAttribute) xmlWriter.writeEndElement();
             }
-            if (!singleAttribute) xmlWriter.writeCharacters("\n\t");
+            if(!singleAttribute) writeTabs(DECREMENT_LEVEL);
+            else tabLevel--;
             xmlWriter.writeEndElement();
         } catch (Exception e) {
             e.printStackTrace();
@@ -82,6 +88,7 @@ public class XMLWriter {
         try {
             if (openingTag != null) writeOpeningTagXML(openingTag);
             if (arrayName != null) {
+                writeTabs(INCREMENT_LEVEL);
                 xmlWriter.writeStartElement(arrayName);
                 if (arrayAttribute != null) xmlWriter.writeAttribute(arrayAttribute, attributeValue);
             }
@@ -89,7 +96,10 @@ public class XMLWriter {
             for (T obj : objList)
                 writeObjectXML(obj);
 
-            if (arrayName != null) xmlWriter.writeEndElement();
+            if (arrayName != null) {
+                writeTabs(DECREMENT_LEVEL);
+                xmlWriter.writeEndElement();
+            }
             if (openingTag != null) writeClosingTagXML(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -102,5 +112,14 @@ public class XMLWriter {
 
     public <T extends Writable> void writeArrayListXML(ArrayList<T> objList) {
         writeArrayListXML(objList, null, null, null);
+    }
+
+    public void writeTabs(int changeLevel) throws XMLStreamException {
+        if (changeLevel == -1) tabLevel--;
+        xmlWriter.writeCharacters("\n");
+        for (int i=0; i<tabLevel; i++) {
+            xmlWriter.writeCharacters("\t");
+        }
+        if (changeLevel == 1) tabLevel++;
     }
 }

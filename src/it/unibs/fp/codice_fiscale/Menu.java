@@ -22,15 +22,15 @@ public class Menu {
             System.out.println(e.getMessage());
         }
 
-
         XMLWriter xmlWriter = new XMLWriter("codiciPersone.xml");
         xmlWriter.writeOpeningTagXML("output");
         xmlWriter.writeArrayListXML(persons, "persone", "numero", ((Integer)persons.size()).toString());
 
-        xmlWriter.writeArrayListXML(codes, "codici", "numero", ((Integer)codes.size()).toString());
+        xmlWriter.writeOpeningTagXML("codici");
+        xmlWriter.writeArrayListXML(codes, "invalidi", "numero", ((Integer)codes.size()).toString());
+        xmlWriter.writeArrayListXML(codes, "spaiati", "numero", ((Integer)codes.size()).toString());
+        xmlWriter.writeClosingTagXML(false);
 
         xmlWriter.writeClosingTagXML(true);
-
-
     }
 }
