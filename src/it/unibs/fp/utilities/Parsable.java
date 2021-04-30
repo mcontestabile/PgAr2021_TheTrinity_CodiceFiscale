@@ -4,20 +4,20 @@ import java.util.HashMap;
 import java.util.function.Consumer;
 
 public interface Parsable {
-    final HashMap<String, Consumer<String>> methods = new HashMap<>();
+    HashMap<String, Consumer<String>> methods = new HashMap<>();
 
-    default public void setAttribute(Tag tag) {
-        Consumer<String> method = methods.get(tag.getTagName());
-        if (method != null) method.accept(tag.getTagValue());
-        if (tag.getAttributeValue() != null) {
-            method = methods.get(tag.getTagAttribute());
-            if (method != null) method.accept(tag.getAttributeValue());
+    default void setAttribute(XMLTag XMLTag) {
+        Consumer<String> method = methods.get(XMLTag.getTagName());
+        if (method != null) method.accept(XMLTag.getTagValue());
+        if (XMLTag.getAttributeValue() != null) {
+            method = methods.get(XMLTag.getTagAttribute());
+            if (method != null) method.accept(XMLTag.getAttributeValue());
         }
     }
 
-    default public boolean containsAttribute(String tag) {
+    default boolean containsAttribute(String tag) {
         return methods.get(tag) != null;
     }
 
-    public String getStartString();
+    String getStartString();
 }

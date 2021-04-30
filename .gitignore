@@ -40,7 +40,7 @@ nb-configuration.xml
 *.swp
 release.properties
 pom.xml.releaseBackup
-pom.xml.tag
+pom.xml.XMLTag
 
 # User-specific stuff
 .idea/**/workspace.xml

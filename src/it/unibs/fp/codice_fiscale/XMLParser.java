@@ -1,7 +1,7 @@
 package it.unibs.fp.codice_fiscale;
 
 import it.unibs.fp.utilities.Parsable;
-import it.unibs.fp.utilities.Tag;
+import it.unibs.fp.utilities.XMLTag;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -32,7 +32,7 @@ public class XMLParser {
 
     public <T extends Parsable> ArrayList<T> parseXML(Class<T> obj) throws XMLStreamException {
         String elementName = null;
-        Tag tag = null;
+        XMLTag XMLTag = null;
         ArrayList<T> objList = new ArrayList<>();
         T t = null;
         try {
@@ -52,8 +52,8 @@ public class XMLParser {
                     for (int i = 0; i < xmlReader.getAttributeCount(); i++) {
                         String name = xmlReader.getAttributeLocalName(i);
                         String value = xmlReader.getAttributeValue(i);
-                        tag = elementName != null ? new Tag(elementName, name, value) : new Tag(name, value);
-                        t.setAttribute(tag);
+                        XMLTag = elementName != null ? new XMLTag(elementName, name, value) : new XMLTag(name, value);
+                        t.setAttribute(XMLTag);
                     }
                 }
 
@@ -72,8 +72,8 @@ public class XMLParser {
 
                 case XMLStreamConstants.CHARACTERS -> {
                     if (xmlReader.getText().trim().length() > 0 && elementName != null) {
-                            tag = new Tag(elementName, xmlReader.getText());
-                        t.setAttribute(tag);
+                            XMLTag = new XMLTag(elementName, xmlReader.getText());
+                        t.setAttribute(XMLTag);
                     }
                 }
             }

@@ -5,19 +5,19 @@ import java.util.HashMap;
 import java.util.function.Supplier;
 
 public interface Writable {
-    final HashMap<String, Supplier<String>> getters = new HashMap<>();
+    HashMap<String, Supplier<String>> getters = new HashMap<>();
 
-    default public ArrayList<Tag> getAttributesToWrite() {
+    default ArrayList<XMLTag> getAttributesToWrite() {
         setGetters();
-        ArrayList<Tag> tags = new ArrayList<>();
+        ArrayList<XMLTag> XMLTags = new ArrayList<>();
         for (String name : getStringsToWrite()) {
             Supplier<String> getter = getters.get(name);
-            tags.add(new Tag(name, getter.get()));
+            XMLTags.add(new XMLTag(name, getter.get()));
         }
-        return tags;
+        return XMLTags;
     }
 
-    public void setGetters();
-    public Tag getStartTag();
-    public ArrayList<String> getStringsToWrite();
+    void setGetters();
+    XMLTag getStartTag();
+    ArrayList<String> getStringsToWrite();
 }

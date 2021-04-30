@@ -1,6 +1,6 @@
 package it.unibs.fp.codice_fiscale;
 
-import it.unibs.fp.utilities.Tag;
+import it.unibs.fp.utilities.XMLTag;
 import it.unibs.fp.utilities.Writable;
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
@@ -25,6 +25,7 @@ public class XMLWriter {
 
     public void writeOpeningTagXML(String openingTag) {
         try {
+            xmlWriter.writeCharacters("\n");
             xmlWriter.writeStartElement(openingTag);
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,6 +34,7 @@ public class XMLWriter {
 
     public void writeClosingTagXML(boolean closeDocument) {
         try {
+            xmlWriter.writeCharacters("\n");
             xmlWriter.writeEndElement();
             if (closeDocument) {
                 xmlWriter.writeEndDocument();
@@ -45,26 +47,31 @@ public class XMLWriter {
     }
 
     public <T extends Writable> void writeObjectXML(T obj) {
-        ArrayList<Tag> elements;
-        Tag startTag;
+        ArrayList<XMLTag> elements;
+        XMLTag startXMLTag;
         boolean singleAttribute = false;
         try {
-            startTag = obj.getStartTag();
-            xmlWriter.writeStartElement(startTag.getTagName());
+            startXMLTag = obj.getStartTag();
+            xmlWriter.writeCharacters("\n\t");
+            xmlWriter.writeStartElement(startXMLTag.getTagName());
 
-            if (startTag.getTagAttribute() != null) {
-                xmlWriter.writeAttribute(startTag.getTagAttribute(), startTag.getAttributeValue());
+            if (startXMLTag.getTagAttribute() != null) {
+                xmlWriter.writeAttribute(startXMLTag.getTagAttribute(), startXMLTag.getAttributeValue());
             }
 
             elements = obj.getAttributesToWrite();
 
-            for (Tag t : elements) {
-                if (t.getTagName().equals(startTag.getTagName()) && elements.size() == 1)
+            for (XMLTag t : elements) {
+                if (t.getTagName().equals(startXMLTag.getTagName()) && elements.size() == 1)
                     singleAttribute = true;
-                if (!singleAttribute) xmlWriter.writeStartElement(t.getTagName());
+                if (!singleAttribute) {
+                    xmlWriter.writeCharacters("\n\t\t");
+                    xmlWriter.writeStartElement(t.getTagName());
+                }
                 xmlWriter.writeCharacters(t.getTagValue());
                 if (!singleAttribute) xmlWriter.writeEndElement();
             }
+            xmlWriter.writeCharacters("\n\t");
             xmlWriter.writeEndElement();
         } catch (Exception e) {
             e.printStackTrace();

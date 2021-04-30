@@ -1,27 +1,27 @@
 package it.unibs.fp.utilities;
 
-public class Tag {
+public class XMLTag {
     private String tagName;
     private String tagValue;
     private String tagAttribute;
     private String attributeValue;
 
-    public Tag(String tagName) {
+    public XMLTag(String tagName) {
         this.tagName = tagName;
     }
 
-    public Tag(String tagName, String tagValue) {
+    public XMLTag(String tagName, String tagValue) {
         this.tagName = tagName;
         this.tagValue = tagValue;
     }
 
-    public Tag(String tagName, String tagAttribute, String attributeValue) {
+    public XMLTag(String tagName, String tagAttribute, String attributeValue) {
         this.tagName = tagName;
         this.tagAttribute = tagAttribute;
         this.attributeValue = attributeValue;
     }
 
-    public Tag(String tagName, String tagValue, String tagAttribute, String attributeValue) {
+    public XMLTag(String tagName, String tagValue, String tagAttribute, String attributeValue) {
         this.tagName = tagName;
         this.tagValue = tagValue;
         this.tagAttribute = tagAttribute;

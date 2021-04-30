@@ -1,7 +1,7 @@
 package it.unibs.fp.codice_fiscale;
 
 import it.unibs.fp.utilities.Parsable;
-import it.unibs.fp.utilities.Tag;
+import it.unibs.fp.utilities.XMLTag;
 import it.unibs.fp.utilities.Writable;
 
 import java.util.ArrayList;
@@ -99,8 +99,8 @@ public class Person implements Parsable, Writable {
     }
 
     @Override
-    public Tag getStartTag() {
-        return new Tag(START_STRING, "id", id);
+    public XMLTag getStartTag() {
+        return new XMLTag(START_STRING, "id", id);
     }
 
     @Override
