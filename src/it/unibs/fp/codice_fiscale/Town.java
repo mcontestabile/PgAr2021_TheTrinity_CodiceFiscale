@@ -1,6 +1,6 @@
 package it.unibs.fp.codice_fiscale;
 
-import it.unibs.fp.utilities.Parsable;
+import it.unibs.fp.interfaces.Parsable;
 
 /**
  * This Class contains the informations of each
@@ -19,8 +19,8 @@ public class Town implements Parsable {
      * contained in the file .xml inputPersone.xml.
      */
     public Town() {
-        methods.put("nome", this::setName);
-        methods.put("codice", this::setCode);
+        setters.put("nome", this::setName);
+        setters.put("codice", this::setCode);
     }
 
     /**

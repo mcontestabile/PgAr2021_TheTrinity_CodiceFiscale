@@ -1,7 +1,6 @@
 package it.unibs.fp.utilities;
 
-import it.unibs.fp.utilities.Parsable;
-import it.unibs.fp.utilities.XMLTag;
+import it.unibs.fp.interfaces.Parsable;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;

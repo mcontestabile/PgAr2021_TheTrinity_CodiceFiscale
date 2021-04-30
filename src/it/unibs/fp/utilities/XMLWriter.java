@@ -1,7 +1,7 @@
 package it.unibs.fp.utilities;
 
-import it.unibs.fp.utilities.XMLTag;
-import it.unibs.fp.utilities.Writable;
+import it.unibs.fp.interfaces.Writable;
+
 import javax.xml.stream.XMLOutputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;

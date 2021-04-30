@@ -1,8 +1,8 @@
 package it.unibs.fp.codice_fiscale;
 
-import it.unibs.fp.utilities.Parsable;
+import it.unibs.fp.interfaces.Parsable;
 import it.unibs.fp.utilities.XMLTag;
-import it.unibs.fp.utilities.Writable;
+import it.unibs.fp.interfaces.Writable;
 
 import java.util.ArrayList;
 
@@ -22,6 +22,7 @@ public class Person implements Parsable, Writable {
     private String town; // poi da modificare con un oggetto di tipo Town
     private String dateOfBirth; // eventualmente da modificare con un oggetto di tipo Date
     private String id;
+    private String fiscalCode = "ASSENTE";
     public static final String START_STRING = "persona";
 
     private static final ArrayList<String> attributeStrings = new ArrayList<>();
@@ -37,6 +38,7 @@ public class Person implements Parsable, Writable {
         attributeStrings.add("sesso");
         attributeStrings.add("comune_nascita");
         attributeStrings.add("data_nascita");
+        attributeStrings.add("codice_fiscale");
     }
 
     /**
@@ -45,12 +47,12 @@ public class Person implements Parsable, Writable {
      * inputPersone.xml.
      */
     public Person() {
-        methods.put(attributeStrings.get(0), this::setName);
-        methods.put(attributeStrings.get(1), this::setSurname);
-        methods.put(attributeStrings.get(2), this::setGender);
-        methods.put(attributeStrings.get(3), this::setTown);
-        methods.put(attributeStrings.get(4), this::setDateOfBirth);
-        methods.put("id", this::setId);
+        setters.put(attributeStrings.get(0), this::setName);
+        setters.put(attributeStrings.get(1), this::setSurname);
+        setters.put(attributeStrings.get(2), this::setGender);
+        setters.put(attributeStrings.get(3), this::setTown);
+        setters.put(attributeStrings.get(4), this::setDateOfBirth);
+        setters.put("id", this::setId);
     }
 
     /**
@@ -124,12 +126,25 @@ public class Person implements Parsable, Writable {
     }
 
     /**
+     * @return the fiscalCode
+     */
+    public String getFiscalCode() {
+        return fiscalCode;
+    }
+
+    /**
+     * @param fiscalCode in String format
+     */
+    public void setFiscalCode(String fiscalCode) {
+        this.fiscalCode = fiscalCode;
+    }
+
+    /**
      * @param id, initialization.
      */
     public void setId(String id) {
         this.id = id;
     }
-
 
     /**
      * This method sets the parameter with the attributes
@@ -141,18 +156,7 @@ public class Person implements Parsable, Writable {
         getters.put(attributeStrings.get(2), this::getGender);
         getters.put(attributeStrings.get(3), this::getTown);
         getters.put(attributeStrings.get(4), this::getDateOfBirth);
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", gender='" + gender + '\'' +
-                ", town='" + town + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", id='" + id + '\'' +
-                '}';
+        getters.put("codice_fiscale", this::getFiscalCode);
     }
 
     @Override

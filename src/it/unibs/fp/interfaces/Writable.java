@@ -1,4 +1,6 @@
-package it.unibs.fp.utilities;
+package it.unibs.fp.interfaces;
+
+import it.unibs.fp.utilities.XMLTag;
 
 import java.util.ArrayList;
 import java.util.HashMap;

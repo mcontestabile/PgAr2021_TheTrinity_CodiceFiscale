@@ -1,9 +1,8 @@
 package it.unibs.fp.codice_fiscale;
 
-import it.unibs.fp.utilities.Parsable;
+import it.unibs.fp.interfaces.Parsable;
 import it.unibs.fp.utilities.XMLTag;
-import it.unibs.fp.utilities.Writable;
-
+import it.unibs.fp.interfaces.Writable;
 import java.util.ArrayList;
 
 /**
@@ -70,12 +69,17 @@ public class FiscalCode implements Parsable, Writable {
 
     private static final ArrayList<String> attributeStrings = new ArrayList<>();
 
+    /*
+     * The static keyword is used to create methods that will exist independently
+     * of any instances created for the class. Static methods do not use any instance
+     * variables of any object of the class they are defined in.
+     */
     static {
         attributeStrings.add("codice");
     }
 
     public FiscalCode() {
-        methods.put("codice", this::setFiscalCode);
+        setters.put("codice", this::setFiscalCode);
     }
 
     public String getFiscalCode() {
