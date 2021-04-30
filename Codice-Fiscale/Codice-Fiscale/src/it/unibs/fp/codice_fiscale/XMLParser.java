@@ -1,5 +1,8 @@
 package it.unibs.fp.codice_fiscale;
 
+import it.unibs.fp.utilities.Parsable;
+import it.unibs.fp.utilities.Tag;
+
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -28,8 +31,8 @@ public class XMLParser {
     }
 
     public <T extends Parsable> ArrayList<T> parseXML(Class<T> obj) throws XMLStreamException {
-
         String elementName = null;
+        Tag tag = null;
         ArrayList<T> objList = new ArrayList<>();
         T t = null;
         try {
@@ -43,7 +46,16 @@ public class XMLParser {
             switch (xmlReader.getEventType()) {
                 case XMLStreamConstants.START_DOCUMENT -> {}
 
-                case XMLStreamConstants.START_ELEMENT -> elementName = t.containsAttribute(xmlReader.getLocalName()) ? xmlReader.getLocalName() : null;
+                case XMLStreamConstants.START_ELEMENT -> {
+                    elementName = t.containsAttribute(xmlReader.getLocalName()) ? xmlReader.getLocalName() : null;
+
+                    for (int i = 0; i < xmlReader.getAttributeCount(); i++) {
+                        String name = xmlReader.getAttributeLocalName(i);
+                        String value = xmlReader.getAttributeValue(i);
+                        tag = elementName != null ? new Tag(elementName, name, value) : new Tag(name, value);
+                        t.setAttribute(tag);
+                    }
+                }
 
                 case XMLStreamConstants.END_ELEMENT -> {
                     if (t.getStartString().equals(xmlReader.getLocalName())) {
@@ -59,8 +71,10 @@ public class XMLParser {
                 case XMLStreamConstants.COMMENT -> {}
 
                 case XMLStreamConstants.CHARACTERS -> {
-                    if (xmlReader.getText().trim().length() > 0 && elementName != null)
-                        t.setAttribute(elementName, xmlReader.getText());
+                    if (xmlReader.getText().trim().length() > 0 && elementName != null) {
+                            tag = new Tag(elementName, xmlReader.getText());
+                        t.setAttribute(tag);
+                    }
                 }
             }
 

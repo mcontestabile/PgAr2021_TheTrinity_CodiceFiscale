@@ -1,6 +1,8 @@
 package it.unibs.fp.codice_fiscale;
 
-public class FiscalCode extends Parsable {
+import it.unibs.fp.utilities.Parsable;
+
+public class FiscalCode implements Parsable {
     private String fiscalCode;
     public static final String START_STRING = "codice";
 
