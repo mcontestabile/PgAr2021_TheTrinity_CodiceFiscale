@@ -31,12 +31,14 @@ public class XMLWriter {
         }
     }
 
-    public void writeClosingTagXML() {
+    public void writeClosingTagXML(boolean closeDocument) {
         try {
             xmlWriter.writeEndElement();
-            xmlWriter.writeEndDocument();
-            xmlWriter.flush();
-            xmlWriter.close();
+            if (closeDocument) {
+                xmlWriter.writeEndDocument();
+                xmlWriter.flush();
+                xmlWriter.close();
+            }
         } catch (XMLStreamException e) {
             e.printStackTrace();
         }
@@ -45,6 +47,7 @@ public class XMLWriter {
     public <T extends Writable> void writeObjectXML(T obj) {
         ArrayList<Tag> elements;
         Tag startTag;
+        boolean singleAttribute = false;
         try {
             startTag = obj.getStartTag();
             xmlWriter.writeStartElement(startTag.getTagName());
@@ -54,10 +57,13 @@ public class XMLWriter {
             }
 
             elements = obj.getAttributesToWrite();
+
             for (Tag t : elements) {
-                xmlWriter.writeStartElement(t.getTagName());
+                if (t.getTagName().equals(startTag.getTagName()) && elements.size() == 1)
+                    singleAttribute = true;
+                if (!singleAttribute) xmlWriter.writeStartElement(t.getTagName());
                 xmlWriter.writeCharacters(t.getTagValue());
-                xmlWriter.writeEndElement();
+                if (!singleAttribute) xmlWriter.writeEndElement();
             }
             xmlWriter.writeEndElement();
         } catch (Exception e) {
@@ -77,7 +83,7 @@ public class XMLWriter {
                 writeObjectXML(obj);
 
             if (arrayName != null) xmlWriter.writeEndElement();
-            if (openingTag != null) writeClosingTagXML();
+            if (openingTag != null) writeClosingTagXML(true);
         } catch (Exception e) {
             e.printStackTrace();
         }

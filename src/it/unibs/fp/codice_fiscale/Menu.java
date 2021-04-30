@@ -40,9 +40,9 @@ public class Menu {
 
 
 
-        //xmlWriter.writeObjectXML(codes, "codici", ((Integer)codes.size()).toString());
+        xmlWriter.writeArrayListXML(codes, "codici", "numero", ((Integer)codes.size()).toString());
 
-        xmlWriter.writeClosingTagXML();
+        xmlWriter.writeClosingTagXML(true);
 
 
     }

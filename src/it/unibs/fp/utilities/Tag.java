@@ -6,6 +6,10 @@ public class Tag {
     private String tagAttribute;
     private String attributeValue;
 
+    public Tag(String tagName) {
+        this.tagName = tagName;
+    }
+
     public Tag(String tagName, String tagValue) {
         this.tagName = tagName;
         this.tagValue = tagValue;
