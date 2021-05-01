@@ -70,8 +70,8 @@ public class XMLWriter {
     }
 
     /**
-     * @param obj refers to the Class of T
-     * @param <T> means "Thing", a generic object
+     * @param obj represents a generic object.
+     * @param <T> represents a generic type.
      * This method writes the Object that we need in
      * the file .xml fileName.xml.
      */
@@ -110,12 +110,12 @@ public class XMLWriter {
     }
 
     /**
-     * @param objList list of T Objects that we have to write
-     * @param arrayName custom tag for the array
-     * @param arrayAttribute array's custom attribute
-     * @param attributeValue attribute value
-     * @param openingTag cml document's opening tag
-     * @param <T> means "Thing", a generic object
+     * @param objList  represents a generic object ArrayList.
+     * @param arrayName represents the tag name of the array.
+     * @param arrayAttribute represents the array's attributes.
+     * @param attributeValue represents the array's attributes.
+     * @param openingTag document's opening tag.
+     * @param <T> represents a generic type.
      * This method writes the ArrayList that we need in
      * the file .xml fileName.xml, considering the parameters
      * we would like to add in the ArrayList.

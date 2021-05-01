@@ -11,6 +11,10 @@ import java.util.function.Consumer;
 public interface Parsable {
     HashMap<String, Consumer<String>> setters = new HashMap<>();
 
+    /**
+     * @param XMLTag represents the tag of an .xml file.
+     *               we are getting the attributes and tags from our input file.
+     */
     default void setAttribute(XMLTag XMLTag) {
         Consumer<String> method = setters.get(XMLTag.getTagName());
         if (method != null) method.accept(XMLTag.getTagValue());
@@ -20,6 +24,10 @@ public interface Parsable {
         }
     }
 
+    /**
+     * @param tag represent the the tag of an .xml file.
+     * @return if there's a setter associated with the tag name or not.
+     */
     default boolean containsAttribute(String tag) {
         return setters.get(tag) != null;
     }

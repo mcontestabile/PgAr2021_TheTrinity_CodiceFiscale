@@ -17,7 +17,10 @@ import java.util.ArrayList;
  */
 public class XMLParser {
     private XMLStreamReader xmlReader = null;
-
+    /**
+     * @param fileName
+     * This method gets the .xml file (that is fileName) we need to parse.
+     */
     public XMLParser(String fileName) {
         try {
             XMLInputFactory xmlFactory = XMLInputFactory.newInstance();
@@ -28,9 +31,9 @@ public class XMLParser {
     }
 
     /**
-     * @param obj refers to the Class of T
-     * @param <T> means "Thing", a generic object
-     * @return an ArrayList containing the parsed list
+     * @param obj is a generic object.
+     * @param <T> is a generic type (T stands for "Thing").
+     * @return objList (the parsed list).
      * @throws XMLStreamException
      * Parsing the file xml that we need to parse.
      */
@@ -39,20 +42,37 @@ public class XMLParser {
         XMLTag XMLTag;
         ArrayList<T> objList = new ArrayList<>();
         T t = null;
+
+        /*
+         * We create a new instance to initialize the T obj,
+         * (so we can use T setters and Parsable methods) and
+         * we also consider the exceptions that are possible.
+         */
         try {
             t = obj.getDeclaredConstructor().newInstance();
         } catch (InstantiationException | NoSuchMethodException | InvocationTargetException | IllegalAccessException e) {
             e.printStackTrace();
         }
 
+        /*
+         * While hasNext() is true, so that parsing events are possibile,
+         * we parse the .xml file.
+         */
         while (xmlReader.hasNext()) {
             assert t != null;
+            /*
+             * we made a switch, we return with xmlReader.getEventType()
+             * an int which represents the event we have to deal with.
+             */
             switch (xmlReader.getEventType()) {
+                /* XMLStreamConstants.START_DOCUMENT = 7, we are starting the parsing. */
                 case XMLStreamConstants.START_DOCUMENT -> {}
 
+                /* XMLStreamConstants.START_ELEMENT = 1, we read an opening tag. */
                 case XMLStreamConstants.START_ELEMENT -> {
                     elementName = t.containsAttribute(xmlReader.getLocalName()) ? xmlReader.getLocalName() : null;
 
+                    /* Counting the attributes and getting them back. */
                     for (int i = 0; i < xmlReader.getAttributeCount(); i++) {
                         String name = xmlReader.getAttributeLocalName(i);
                         String value = xmlReader.getAttributeValue(i);
@@ -61,6 +81,7 @@ public class XMLParser {
                     }
                 }
 
+                /* XMLStreamConstants.END_ELEMENT = 2, reading an end tag. */
                 case XMLStreamConstants.END_ELEMENT -> {
                     if (t.getStartString().equals(xmlReader.getLocalName())) {
                         objList.add(t);
@@ -72,8 +93,10 @@ public class XMLParser {
                     }
                 }
 
+                /* XMLStreamConstants.COMMENT = 5, reading a comment. We will add comment management in the future. */
                 case XMLStreamConstants.COMMENT -> {}
 
+                /* XMLStreamConstants.CHARACTERS  = 4, reading a text inside an element. */
                 case XMLStreamConstants.CHARACTERS -> {
                     if (xmlReader.getText().trim().length() > 0 && elementName != null) {
                         XMLTag = new XMLTag(elementName, xmlReader.getText());

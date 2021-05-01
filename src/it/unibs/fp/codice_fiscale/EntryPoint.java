@@ -8,8 +8,7 @@ package it.unibs.fp.codice_fiscale;
  */
 public class EntryPoint {
     public static void main (String[] args) {
-
-        Menu menu = new Menu();
-        menu.fiscalCodeGestion();
+        ManageXML manageXml = new ManageXML();
+        manageXml.fiscalCodeGestion();
     }
 }

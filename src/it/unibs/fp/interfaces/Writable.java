@@ -12,6 +12,10 @@ import java.util.function.Supplier;
 public interface Writable {
     HashMap<String, Supplier<String>> getters = new HashMap<>();
 
+    /**
+     * @return the tags we want to put in the output .xml file.
+     * We are setting the attributes of the output .xml file.
+     */
     default ArrayList<XMLTag> getAttributesToWrite() {
         setGetters();
         ArrayList<XMLTag> XMLTags = new ArrayList<>();

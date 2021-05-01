@@ -14,6 +14,11 @@ public class Town implements Parsable {
     private String code;
     public static final String START_STRING = "comune";
 
+    public Town(String name, String code) {
+        this.name = name;
+        this.code = code;
+    }
+
     /**
      * This method sets the parameter with the attributes
      * contained in the file .xml inputPersone.xml.
@@ -49,14 +54,6 @@ public class Town implements Parsable {
      */
     public void setCode(String code) {
         this.code = code;
-    }
-
-    @Override
-    public String toString() {
-        return "Town{" +
-                "name='" + name + '\'' +
-                ", code='" + code + '\'' +
-                '}';
     }
 
     @Override

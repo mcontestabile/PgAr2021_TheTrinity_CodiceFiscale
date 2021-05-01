@@ -66,8 +66,7 @@ import java.util.ArrayList;
 public class FiscalCode implements Parsable, Writable {
     private String fiscalCode;
     public static final String START_STRING = "codice";
-
-    private static final ArrayList<String> attributeStrings = new ArrayList<>();
+    private static final ArrayList<String> ATTRIBUTE_STRINGS = new ArrayList<>();
 
     /*
      * The static keyword is used to create methods that will exist independently
@@ -75,13 +74,16 @@ public class FiscalCode implements Parsable, Writable {
      * variables of any object of the class they are defined in.
      */
     static {
-        attributeStrings.add("codice");
+        ATTRIBUTE_STRINGS.add("codice");
     }
 
     public FiscalCode() {
         setters.put("codice", this::setFiscalCode);
     }
 
+    /**
+     * @return a string, that is fiscalCode.
+     */
     public String getFiscalCode() {
         return fiscalCode;
     }
@@ -113,6 +115,6 @@ public class FiscalCode implements Parsable, Writable {
 
     @Override
     public ArrayList<String> getStringsToWrite() {
-        return attributeStrings;
+        return ATTRIBUTE_STRINGS;
     }
 }

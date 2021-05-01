@@ -4,7 +4,11 @@ import it.unibs.fp.interfaces.Parsable;
 import it.unibs.fp.utilities.XMLTag;
 import it.unibs.fp.interfaces.Writable;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * This Class implements Parsable and Writable, because we
@@ -19,13 +23,12 @@ public class Person implements Parsable, Writable {
     private String name;
     private String surname;
     private String gender;
-    private String town; // poi da modificare con un oggetto di tipo Town
-    private String dateOfBirth; // eventualmente da modificare con un oggetto di tipo Date
+    private Town town;
+    private Date dateOfBirth;
     private String id;
     private String fiscalCode = "ASSENTE";
     public static final String START_STRING = "persona";
-
-    private static final ArrayList<String> attributeStrings = new ArrayList<>();
+    private static final ArrayList<String> ATTRIBUTE_STRINGS = new ArrayList<>();
 
     /*
      * The keyword static is used to create methods that will exist independently
@@ -33,12 +36,12 @@ public class Person implements Parsable, Writable {
      * any instance variables of any object of the class they are defined in.
      */
     static {
-        attributeStrings.add("nome");
-        attributeStrings.add("cognome");
-        attributeStrings.add("sesso");
-        attributeStrings.add("comune_nascita");
-        attributeStrings.add("data_nascita");
-        attributeStrings.add("codice_fiscale");
+        ATTRIBUTE_STRINGS.add("nome");
+        ATTRIBUTE_STRINGS.add("cognome");
+        ATTRIBUTE_STRINGS.add("sesso");
+        ATTRIBUTE_STRINGS.add("comune_nascita");
+        ATTRIBUTE_STRINGS.add("data_nascita");
+        ATTRIBUTE_STRINGS.add("codice_fiscale");
     }
 
     /**
@@ -47,11 +50,11 @@ public class Person implements Parsable, Writable {
      * inputPersone.xml.
      */
     public Person() {
-        setters.put(attributeStrings.get(0), this::setName);
-        setters.put(attributeStrings.get(1), this::setSurname);
-        setters.put(attributeStrings.get(2), this::setGender);
-        setters.put(attributeStrings.get(3), this::setTown);
-        setters.put(attributeStrings.get(4), this::setDateOfBirth);
+        setters.put(ATTRIBUTE_STRINGS.get(0), this::setName);
+        setters.put(ATTRIBUTE_STRINGS.get(1), this::setSurname);
+        setters.put(ATTRIBUTE_STRINGS.get(2), this::setGender);
+        setters.put(ATTRIBUTE_STRINGS.get(3), this::setTownString);
+        setters.put(ATTRIBUTE_STRINGS.get(4), this::setDateOfBirth);
         setters.put("id", this::setId);
     }
 
@@ -100,14 +103,28 @@ public class Person implements Parsable, Writable {
     /**
      * @return a string that is town.
      */
-    public String getTown() {
+    public String getTownString() {
+        return town.getName();
+    }
+
+    /**
+     * @return a town.
+     */
+    public Town getTown() {
         return town;
     }
 
     /**
      * @param town, initialization.
      */
-    public void setTown(String town) {
+    public void setTownString(String town) {
+        this.town = new Town(town, "");
+    }
+
+    /**
+     * @param town, initialization.
+     */
+    public void setTown(Town town) {
         this.town = town;
     }
 
@@ -115,14 +132,25 @@ public class Person implements Parsable, Writable {
      * @return a string that is date of birth.
      */
     public String getDateOfBirth() {
-        return dateOfBirth;
+        return dateOfBirth.toString();
+    }
+
+    public Calendar getDateOfBirthCalendar() {
+        Calendar dateOfBirthCalendar = new GregorianCalendar();
+        dateOfBirthCalendar.setTime(dateOfBirth);
+        return dateOfBirthCalendar;
     }
 
     /**
      * @param dateOfBirth, initialization.
      */
     public void setDateOfBirth(String dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
+        try {
+            SimpleDateFormat dateOfBirthFormat = new SimpleDateFormat("yyyy-MM-dd");
+            this.dateOfBirth = dateOfBirthFormat.parse(dateOfBirth);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -151,11 +179,11 @@ public class Person implements Parsable, Writable {
      * contained in the file .xml inputPersone.xml.
      */
     public void setGetters() {
-        getters.put(attributeStrings.get(0), this::getName);
-        getters.put(attributeStrings.get(1), this::getSurname);
-        getters.put(attributeStrings.get(2), this::getGender);
-        getters.put(attributeStrings.get(3), this::getTown);
-        getters.put(attributeStrings.get(4), this::getDateOfBirth);
+        getters.put(ATTRIBUTE_STRINGS.get(0), this::getName);
+        getters.put(ATTRIBUTE_STRINGS.get(1), this::getSurname);
+        getters.put(ATTRIBUTE_STRINGS.get(2), this::getGender);
+        getters.put(ATTRIBUTE_STRINGS.get(3), this::getTownString);
+        getters.put(ATTRIBUTE_STRINGS.get(4), this::getDateOfBirth);
         getters.put("codice_fiscale", this::getFiscalCode);
     }
 
@@ -171,6 +199,6 @@ public class Person implements Parsable, Writable {
 
     @Override
     public ArrayList<String> getStringsToWrite() {
-        return attributeStrings;
+        return ATTRIBUTE_STRINGS;
     }
 }
