@@ -27,7 +27,7 @@ public class ManageXML {
     public void fiscalCodeGestion() {
         ArrayList<Person> persons = null;
         ArrayList<FiscalCode> fiscalCodes = null;
-        ArrayList<Town> towns = null;
+        ArrayList<Town> towns;
         HashMap<String, String> townsHashMap = new HashMap<>();
         try {
             XMLParser xmlParserP = new XMLParser("inputPersone.xml");
