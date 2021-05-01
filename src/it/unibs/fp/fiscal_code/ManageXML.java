@@ -68,7 +68,7 @@ public class ManageXML {
 
         XMLWriter xmlWriter = new XMLWriter("codiciPersone.xml");
         xmlWriter.writeOpeningTagXML("output");
-        xmlWriter.writeArrayListXML(persons, "persone", "numero", ((Integer)persons.size()).toString());
+        xmlWriter.writeArrayListXML(persons, "persone", "numero", persons.size() + "");
 
         xmlWriter.writeOpeningTagXML("codici");
         xmlWriter.writeArrayListXML(invalidi, "invalidi", "numero", invalidi.size() + "");
