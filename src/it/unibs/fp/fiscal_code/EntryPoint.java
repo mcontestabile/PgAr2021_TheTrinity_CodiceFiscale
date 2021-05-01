@@ -9,6 +9,6 @@ package it.unibs.fp.fiscal_code;
 public class EntryPoint {
     public static void main (String[] args) {
         ManageXML manageXml = new ManageXML();
-        manageXml.fiscalCodeGestion();
+        manageXml.startXMLManaging();
     }
 }

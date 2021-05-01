@@ -141,6 +141,9 @@ public class Person implements Parsable, Writable {
 
     }
 
+    /**
+     * @return a Calendar that represent the date of birth
+     */
     public Calendar getDateOfBirthCalendar() {
         Calendar dateOfBirthCalendar = new GregorianCalendar();
         dateOfBirthCalendar.setTime(dateOfBirth);

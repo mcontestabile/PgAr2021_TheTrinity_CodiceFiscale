@@ -14,41 +14,50 @@ import java.util.HashMap;
  * .xml codiciPersone.xml.
  */
 public class ManageXML {
+    private final String PERSONS_FILE = "inputPersone.xml";
+    private final String FISCAL_CODES_FILE = "codiciFiscali.xml";
+    private final String TOWNS_FILE = "comuni.xml";
+    private final String OUTPUT_FILE = "codiciPersone.xml";
+
+    private ArrayList<Person> persons = new ArrayList<>();
+    private ArrayList<FiscalCode> fiscalCodes = new ArrayList<>();
+    private ArrayList<Town> towns = new ArrayList<>();
+    private ArrayList<FiscalCode> invalid = new ArrayList<>();
+    private ArrayList<FiscalCode> unmatched = new ArrayList<>();
+
+    public void startXMLManaging() {
+        parseXMLFiles();
+        associateFiscalCodesAndTowns();
+        fillInvalidAndUnmatched();
+        writeOutputFile();
+    }
+
     /**
      * Parsing phase, we get the iput dates that
      * allows to generate the Fiscal Codes and
      * to compare the fc, made by FiscalCode class,
      * with the ones in the .xml file codiciFiscali.xml.
      */
-
-    /**
-     * Writing the output of .xml file.
-     */
-    public void fiscalCodeGestion() {
-        ArrayList<Person> persons = null;
-        ArrayList<FiscalCode> fiscalCodes = null;
-        ArrayList<Town> towns;
-        HashMap<String, String> townsHashMap = new HashMap<>();
+    private void parseXMLFiles() {
         try {
-            XMLParser xmlParserP = new XMLParser("inputPersone.xml");
+            XMLParser xmlParserP = new XMLParser(PERSONS_FILE);
             persons = xmlParserP.parseXML(Person.class);
 
-            /*
-            It calculates invalid and non-matching fiscal codes
-             */
-            XMLParser xmlParserFC = new XMLParser("codiciFiscali.xml");
+            XMLParser xmlParserFC = new XMLParser(FISCAL_CODES_FILE);
             fiscalCodes = xmlParserFC.parseXML(FiscalCode.class);
 
-            XMLParser xmlParserTw = new XMLParser("comuni.xml");
+            XMLParser xmlParserTw = new XMLParser(TOWNS_FILE);
             towns = xmlParserTw.parseXML(Town.class);
-            for (Town t : towns) {
-                townsHashMap.put(t.getName(), t.getCode());
-            }
         } catch (XMLStreamException e) {
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
+    }
 
-        ArrayList<FiscalCode> personFiscalCodes = new ArrayList<>();
+    private void associateFiscalCodesAndTowns() {
+        HashMap<String, String> townsHashMap = new HashMap<>();
+        for (Town t : towns) {
+            townsHashMap.put(t.getName(), t.getCode());
+        }
         FiscalCodeUtils fiscalCodeUtils;
         for (Person p : persons) {
             p.setTown(new Town(p.getTownString(), townsHashMap.get(p.getTownString())));
@@ -57,24 +66,30 @@ public class ManageXML {
             if (fiscalCodes.contains(code))
                 p.setFiscalCode(fiscalCodes.remove(fiscalCodes.indexOf(code)).getFiscalCode());
         }
+    }
 
-        ArrayList<FiscalCode> invalidi = new ArrayList<>();
-        ArrayList<FiscalCode> spaiati = new ArrayList<>();
-        fiscalCodeUtils = new FiscalCodeUtils();
+    /**
+     * It calculates invalid and non-matching fiscal codes
+     */
+    private void fillInvalidAndUnmatched() {
+        FiscalCodeUtils fiscalCodeUtils = new FiscalCodeUtils();
         for (FiscalCode fiscalCode : fiscalCodes) {
-            if (fiscalCodeUtils.checkFiscalCode(fiscalCode.getFiscalCode())) spaiati.add(fiscalCode);
-            else invalidi.add(fiscalCode);
+            if (fiscalCodeUtils.checkFiscalCode(fiscalCode.getFiscalCode())) unmatched.add(fiscalCode);
+            else invalid.add(fiscalCode);
         }
+    }
 
-        XMLWriter xmlWriter = new XMLWriter("codiciPersone.xml");
+    /**
+     * Writing the output of .xml file.
+     */
+    private void writeOutputFile() {
+        XMLWriter xmlWriter = new XMLWriter(OUTPUT_FILE);
         xmlWriter.writeOpeningTagXML("output");
         xmlWriter.writeArrayListXML(persons, "persone", "numero", persons.size() + "");
-
         xmlWriter.writeOpeningTagXML("codici");
-        xmlWriter.writeArrayListXML(invalidi, "invalidi", "numero", invalidi.size() + "");
-        xmlWriter.writeArrayListXML(spaiati, "spaiati", "numero", spaiati.size() + "");
+        xmlWriter.writeArrayListXML(invalid, "invalidi", "numero", invalid.size() + "");
+        xmlWriter.writeArrayListXML(unmatched, "spaiati", "numero", unmatched.size() + "");
         xmlWriter.writeClosingTagXML(false);
-
         xmlWriter.writeClosingTagXML(true);
     }
 }

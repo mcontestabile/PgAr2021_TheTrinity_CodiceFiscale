@@ -77,9 +77,13 @@ public class FiscalCodeUtils {
     };
     private String fiscalCode;
 
-    public FiscalCodeUtils() {
-    }
+    public FiscalCodeUtils() { }
 
+    /**
+     * @param p represents a person.
+     *          It's the constructor, it
+     *          generates the fiscal code.
+     */
     public FiscalCodeUtils(Person p) {
         Calendar date = p.getDateOfBirthCalendar();
         String betaCode =   generateSurnameCode(p.getSurname()) +
@@ -92,14 +96,25 @@ public class FiscalCodeUtils {
         fiscalCode = betaCode + generateControlCode(betaCode);
     }
 
+    /**
+     * @return fiscalCode, String format.
+     */
     public String getFiscalCodeString() {
         return fiscalCode;
     }
 
+    /**
+     * @return the fiscalCode, FiscalCode format.
+     */
     public FiscalCode getFiscalCode() {
         return new FiscalCode(fiscalCode);
     }
 
+    /**
+     * @param codeToCheck in String format
+     * @return valid
+     * Checking fiscal codes' validity.
+     */
     public boolean checkFiscalCode(String codeToCheck) {
         codeToCheck = codeToCheck.toUpperCase();
         char[] cf = codeToCheck.toCharArray();
@@ -110,20 +125,27 @@ public class FiscalCodeUtils {
         String sCode = codeToCheck.substring(0, 3);
         String nCode = codeToCheck.substring(3, 6);
 
+        /*
+         * If the fiscal code's longer than sixteen chars,
+         * it isn't valid.
+         */
         if (codeToCheck.length() != 16) return false;
 
         for (int i = 0; i < cf.length; i++) {
             valid = switch (i) {
+                /* Checking if letters and numbers are in the right position. */
                 case 0, 1, 2, 3, 4, 5, 8, 11, 15 -> cf[i] >= 'A' && cf[i] <= 'Z';
                 default -> cf[i] >= '1' && cf[i] <= '9';
             };
         }
         if (valid)
             valid = switch (monthCode) {
+                /* Checking if month is a right char. */
                 case 'A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T' -> true;
                 default -> false;
             };
 
+        /* Checking if month is right. */
         dayCode = Integer.parseInt(codeToCheck.substring(9, 11));
         if (dayCode > 31) dayCode -= 40;
         if (!(dayCode >= 1 && dayCode <= getMonthDays(monthCode)) ||
@@ -134,14 +156,26 @@ public class FiscalCodeUtils {
         return valid;
     }
 
+    /**
+     * @return surname.
+     * Generation surname's string.
+     */
     private String generateSurnameCode(String surname) {
         return getNounCode(surname.toUpperCase(), false);
     }
 
+    /**
+     * @return name.
+     * Generation name' string.
+     */
     private String generateNameCode(String name) {
         return getNounCode(name.toUpperCase(), true);
     }
 
+    /**
+     * @return MALE_CODE.
+     * Generation gender's string.
+     */
     private String generateGenderCode(String gender) {
         String genderCode = (gender.length() == 1 ? gender : gender.substring(0, 1)).toUpperCase();
         if (genderCode.equals(MALE_CODE) || genderCode.equals(FEMALE_CODE))
@@ -149,15 +183,25 @@ public class FiscalCodeUtils {
         return MALE_CODE;
     }
 
+    /**
+     * @return town.
+     * Generation towm's string.
+     */
     private String generateTownCode(Town town) {
         return town.getCode();
     }
 
+    /**
+     * Generation year code's string.
+     */
     private String generateYearCode(int year) {
         int yearCode = year % 100;
         return ((yearCode < 10 ? "0" : "") + yearCode);
     }
 
+    /**
+     * Generation month code's string.
+     */
     private String generateMonthCode(int monthNumber) {
         return ORDERED_MONTH_CODES[monthNumber];
     }
@@ -168,6 +212,10 @@ public class FiscalCodeUtils {
         return "" + (day < 10 ? "0" : "") + day;
     }
 
+    /**
+     * @return day (and also gender)
+     * Generation day's string.
+     */
     private String generateControlCode(String betaCode) {
         int evens = 0, odds = 0, check, index;
 
@@ -182,6 +230,10 @@ public class FiscalCodeUtils {
         return EVENS_LIST[check] + "";
     }
 
+    /**
+     * @return EVENS_LIST.
+     * Generation control code's string.
+     */
     private String getNounCode(String noun, boolean isName) {
         noun = (noun.trim()).toUpperCase();
         String nounCode = "";
@@ -198,19 +250,36 @@ public class FiscalCodeUtils {
         return nounCode;
     }
 
+    /**
+     * @return nounCode.
+     * Getting name and surname.
+     */
     private String getVowels(String noun) {
         return noun.replaceAll("[^" + VOWELS_LIST + "]", "");
     }
 
+    /**
+     * @return VOWELS_LIST.
+     * Getting vowels.
+     */
     private String getConsonants(String noun) {
         return noun.replaceAll("[" + VOWELS_LIST + "]", "");
     }
 
+    /**
+     * @param noun to add x.
+     * @return updated noun string.
+     */
     private String addX(String noun) {
         while (noun.length() < 3) noun += "X";
         return noun;
     }
 
+    /**
+     * @param noun represents name's or surname's consonants.
+     * @param vowels contains noun vowels.
+     * @return updated noun string.
+     */
     private String addVowels(String noun, String vowels) {
         int index = 0;
         while (noun.length() < 3) {
@@ -220,6 +289,10 @@ public class FiscalCodeUtils {
         return noun;
     }
 
+    /**
+     * @param nameOrSurnameCode contains name or surname code.
+     * @return checks if code is correct.
+     */
     private boolean checkNameOrSurname(String nameOrSurnameCode) {
         boolean containsVowel = false;
         for (int i=0; i<nameOrSurnameCode.length(); i++) {
@@ -230,6 +303,10 @@ public class FiscalCodeUtils {
         return true;
     }
 
+    /**
+     * @param monthName contains month's char value.
+     * @return month's name numbers.
+     */
     private int getMonthDays(char monthName) {
         return switch (monthName) {
             case 'S', 'D', 'H', 'P' -> 30;
