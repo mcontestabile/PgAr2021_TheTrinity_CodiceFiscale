@@ -1,4 +1,4 @@
-package it.unibs.fp.codice_fiscale;
+package it.unibs.fp.fiscal_code;
 
 import it.unibs.fp.interfaces.Parsable;
 
