@@ -26,7 +26,7 @@ public class ManageXML {
      */
     public void fiscalCodeGestion() {
         ArrayList<Person> persons = null;
-        ArrayList<FiscalCode> codes = null;
+        ArrayList<FiscalCode> fiscalCodes = null;
         ArrayList<Town> towns = null;
         HashMap<String, String> townsHashMap = new HashMap<>();
         try {
@@ -36,7 +36,7 @@ public class ManageXML {
             // calcola codici invalidi
             // calcola codici spaiati
             XMLParser xmlParserFC = new XMLParser("codiciFiscali.xml");
-            codes = xmlParserFC.parseXML(FiscalCode.class);
+            fiscalCodes = xmlParserFC.parseXML(FiscalCode.class);
 
             XMLParser xmlParserTw = new XMLParser("comuni.xml");
             towns = xmlParserTw.parseXML(Town.class);
@@ -47,12 +47,14 @@ public class ManageXML {
             System.out.println(e.getMessage());
         }
 
+        ArrayList<FiscalCode> personFiscalCodes = new ArrayList<>();
         FiscalCodeUtils fiscalCodeUtils;
         for (Person p : persons) {
             p.setTown(new Town(p.getTownString(), townsHashMap.get(p.getTownString())));
             fiscalCodeUtils = new FiscalCodeUtils(p);
-            System.out.println(fiscalCodeUtils.getFiscalCode());
-
+            FiscalCode code = fiscalCodeUtils.getFiscalCode();
+            if (fiscalCodes.contains(code))
+                p.setFiscalCode(code.getFiscalCode());
         }
 
         XMLWriter xmlWriter = new XMLWriter("codiciPersone.xml");
@@ -60,12 +62,10 @@ public class ManageXML {
         xmlWriter.writeArrayListXML(persons, "persone", "numero", ((Integer)persons.size()).toString());
 
         xmlWriter.writeOpeningTagXML("codici");
-        xmlWriter.writeArrayListXML(codes, "invalidi", "numero", ((Integer)codes.size()).toString());
-        xmlWriter.writeArrayListXML(codes, "spaiati", "numero", ((Integer)codes.size()).toString());
+        xmlWriter.writeArrayListXML(fiscalCodes, "invalidi", "numero", ((Integer)fiscalCodes.size()).toString());
+        xmlWriter.writeArrayListXML(fiscalCodes, "spaiati", "numero", ((Integer)fiscalCodes.size()).toString());
         xmlWriter.writeClosingTagXML(false);
 
         xmlWriter.writeClosingTagXML(true);
-
-
     }
 }
