@@ -80,9 +80,9 @@ public class FiscalCodeUtils {
     public FiscalCodeUtils() { }
 
     /**
+     * It's the constructor, it
+     * generates the fiscal code.
      * @param p represents a person.
-     *          It's the constructor, it
-     *          generates the fiscal code.
      */
     public FiscalCodeUtils(Person p) {
         Calendar date = p.getDateOfBirthCalendar();
@@ -111,9 +111,9 @@ public class FiscalCodeUtils {
     }
 
     /**
+     * Checking fiscal codes' validity.
      * @param codeToCheck in String format
      * @return valid
-     * Checking fiscal codes' validity.
      */
     public boolean checkFiscalCode(String codeToCheck) {
         codeToCheck = codeToCheck.toUpperCase();
@@ -157,24 +157,24 @@ public class FiscalCodeUtils {
     }
 
     /**
-     * @return surname.
      * Generation surname's string.
+     * @return surname.
      */
     private String generateSurnameCode(String surname) {
         return getNounCode(surname.toUpperCase(), false);
     }
 
     /**
-     * @return name.
      * Generation name' string.
+     * @return name.
      */
     private String generateNameCode(String name) {
         return getNounCode(name.toUpperCase(), true);
     }
 
     /**
-     * @return MALE_CODE.
      * Generation gender's string.
+     * @return MALE_CODE.
      */
     private String generateGenderCode(String gender) {
         String genderCode = (gender.length() == 1 ? gender : gender.substring(0, 1)).toUpperCase();
@@ -184,8 +184,8 @@ public class FiscalCodeUtils {
     }
 
     /**
-     * @return town.
      * Generation towm's string.
+     * @return town.
      */
     private String generateTownCode(Town town) {
         return town.getCode();
@@ -213,8 +213,8 @@ public class FiscalCodeUtils {
     }
 
     /**
-     * @return day (and also gender)
      * Generation day's string.
+     * @return day (and also gender)
      */
     private String generateControlCode(String betaCode) {
         int evens = 0, odds = 0, check, index;
@@ -231,8 +231,8 @@ public class FiscalCodeUtils {
     }
 
     /**
-     * @return EVENS_LIST.
      * Generation control code's string.
+     * @return EVENS_LIST.
      */
     private String getNounCode(String noun, boolean isName) {
         noun = (noun.trim()).toUpperCase();
@@ -251,16 +251,16 @@ public class FiscalCodeUtils {
     }
 
     /**
-     * @return nounCode.
      * Getting name and surname.
+     * @return nounCode.
      */
     private String getVowels(String noun) {
         return noun.replaceAll("[^" + VOWELS_LIST + "]", "");
     }
 
     /**
-     * @return VOWELS_LIST.
      * Getting vowels.
+     * @return VOWELS_LIST.
      */
     private String getConsonants(String noun) {
         return noun.replaceAll("[" + VOWELS_LIST + "]", "");

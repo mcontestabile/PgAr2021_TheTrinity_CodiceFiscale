@@ -15,17 +15,17 @@ public class XMLTag {
     private String attributeValue;
 
     /**
-     * @param tagName * @param tagName represents the tag name.
      * Constructor, it allows the creation of an object, that is XMLTag.
+     * @param tagName * @param tagName represents the tag name.
      */
     public XMLTag(String tagName) {
         this.tagName = tagName;
     }
 
     /**
+     * Constructor, it allows the creation of an object, that is XMLTag.
      * @param tagName  represents the tag name.
      * @param tagValue  represents the tag value.
-     * Constructor, it allows the creation of an object, that is XMLTag.
      */
     public XMLTag(String tagName, String tagValue) {
         this.tagName = tagName;
@@ -33,10 +33,10 @@ public class XMLTag {
     }
 
     /**
+     * Constructor, it allows the creation of an object, that is XMLTag.
      * @param tagName represents the tag name.
      * @param tagAttribute represents the tag's attribute(s).
      * @param attributeValue represents the attribute's value(s).
-     * Constructor, it allows the creation of an object, that is XMLTag.
      */
     public XMLTag(String tagName, String tagAttribute, String attributeValue) {
         this.tagName = tagName;
@@ -45,11 +45,11 @@ public class XMLTag {
     }
 
     /**
+     * Constructor, it allows the creation of an object, that is XMLTag.
      * @param tagName represents the tag name.
      * @param tagValue  represents the tag value.
      * @param tagAttribute represents the tag's attribute(s).
      * @param attributeValue represents the attribute's value(s).
-     * Constructor, it allows the creation of an object, that is XMLTag.
      */
     public XMLTag(String tagName, String tagValue, String tagAttribute, String attributeValue) {
         this.tagName = tagName;

@@ -22,10 +22,11 @@ public class XMLWriter {
     public static final int DECREMENT_LEVEL = -1;
 
     /**
-     * @param fileName, it generates a file .xml that has a name
-     *                  that is a String. The name is given
-     *                  by the user. As the exercise's text
-     *                  says, we have to call it outputPersone.
+     * it generates a file .xml that has a name
+     * that is a String. The name is given
+     * by the user. As the exercise's text
+     * says, we have to call it outputPersone.
+     * @param fileName contains the xml output name.
      */
     public XMLWriter(String fileName) {
         try {
@@ -51,9 +52,9 @@ public class XMLWriter {
     }
 
     /**
+     * this method closes an open tag.
      * @param closeDocument,  if true, it close document
      *                        of the fileName.xml.
-     * this method closes an open tag.
      */
     public void writeClosingTagXML(boolean closeDocument) {
         try {
@@ -70,10 +71,10 @@ public class XMLWriter {
     }
 
     /**
-     * @param obj represents a generic object.
-     * @param <T> represents a generic type.
      * This method writes the Object that we need in
      * the file .xml fileName.xml.
+     * @param obj represents a generic object.
+     * @param <T> represents a generic type.
      */
     public <T extends Writable> void writeObjectXML(T obj) {
         ArrayList<XMLTag> elements;
@@ -110,15 +111,15 @@ public class XMLWriter {
     }
 
     /**
+     * This method writes the ArrayList that we need in
+     * the file .xml fileName.xml, considering the parameters
+     * we would like to add in the ArrayList.
      * @param objList  represents a generic object ArrayList.
      * @param arrayName represents the tag name of the array.
      * @param arrayAttribute represents the array's attributes.
      * @param attributeValue represents the array's attributes.
      * @param openingTag document's opening tag.
      * @param <T> represents a generic type.
-     * This method writes the ArrayList that we need in
-     * the file .xml fileName.xml, considering the parameters
-     * we would like to add in the ArrayList.
      */
     public <T extends Writable> void writeArrayListXML(ArrayList<T> objList, String arrayName, String arrayAttribute, String attributeValue, String openingTag) {
         try {

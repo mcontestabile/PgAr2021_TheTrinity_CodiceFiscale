@@ -18,8 +18,8 @@ import java.util.ArrayList;
 public class XMLParser {
     private XMLStreamReader xmlReader = null;
     /**
-     * @param fileName
      * This method gets the .xml file (that is fileName) we need to parse.
+     * @param fileName
      */
     public XMLParser(String fileName) {
         try {
@@ -31,11 +31,11 @@ public class XMLParser {
     }
 
     /**
+     * Parsing the file xml that we need to parse.
      * @param obj is a generic object.
      * @param <T> is a generic type (T stands for "Thing").
      * @return objList (the parsed list).
      * @throws XMLStreamException
-     * Parsing the file xml that we need to parse.
      */
     public <T extends Parsable> ArrayList<T> parseXML(Class<T> obj) throws XMLStreamException {
         String elementName = null;

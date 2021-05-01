@@ -12,8 +12,8 @@ public interface Parsable {
     HashMap<String, Consumer<String>> setters = new HashMap<>();
 
     /**
+     * this method gets the attributes and tags from our input file.
      * @param XMLTag represents the tag of an .xml file.
-     *               we are getting the attributes and tags from our input file.
      */
     default void setAttribute(XMLTag XMLTag) {
         Consumer<String> method = setters.get(XMLTag.getTagName());
