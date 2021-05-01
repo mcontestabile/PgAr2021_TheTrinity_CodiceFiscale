@@ -1,6 +1,6 @@
 package it.unibs.fp.interfaces;
 
-import it.unibs.fp.utilities.XMLTag;
+import it.unibs.fp.utilities.*;
 
 import java.util.HashMap;
 import java.util.function.Consumer;
