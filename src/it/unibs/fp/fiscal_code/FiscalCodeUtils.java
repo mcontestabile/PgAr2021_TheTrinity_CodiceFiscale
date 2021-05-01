@@ -77,6 +77,9 @@ public class FiscalCodeUtils {
     };
     private String fiscalCode;
 
+    public FiscalCodeUtils() {
+    }
+
     public FiscalCodeUtils(Person p) {
         Calendar date = p.getDateOfBirthCalendar();
         String betaCode =   generateSurnameCode(p.getSurname()) +

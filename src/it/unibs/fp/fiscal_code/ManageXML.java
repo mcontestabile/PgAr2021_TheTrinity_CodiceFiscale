@@ -54,7 +54,15 @@ public class ManageXML {
             fiscalCodeUtils = new FiscalCodeUtils(p);
             FiscalCode code = fiscalCodeUtils.getFiscalCode();
             if (fiscalCodes.contains(code))
-                p.setFiscalCode(code.getFiscalCode());
+                p.setFiscalCode(fiscalCodes.remove(fiscalCodes.indexOf(code)).getFiscalCode());
+        }
+
+        ArrayList<FiscalCode> invalidi = new ArrayList<>();
+        ArrayList<FiscalCode> spaiati = new ArrayList<>();
+        fiscalCodeUtils = new FiscalCodeUtils();
+        for (FiscalCode fiscalCode : fiscalCodes) {
+            if (fiscalCodeUtils.checkFiscalCode(fiscalCode.getFiscalCode())) spaiati.add(fiscalCode);
+            else invalidi.add(fiscalCode);
         }
 
         XMLWriter xmlWriter = new XMLWriter("codiciPersone.xml");
@@ -62,8 +70,8 @@ public class ManageXML {
         xmlWriter.writeArrayListXML(persons, "persone", "numero", ((Integer)persons.size()).toString());
 
         xmlWriter.writeOpeningTagXML("codici");
-        xmlWriter.writeArrayListXML(fiscalCodes, "invalidi", "numero", ((Integer)fiscalCodes.size()).toString());
-        xmlWriter.writeArrayListXML(fiscalCodes, "spaiati", "numero", ((Integer)fiscalCodes.size()).toString());
+        xmlWriter.writeArrayListXML(invalidi, "invalidi", "numero", invalidi.size() + "");
+        xmlWriter.writeArrayListXML(spaiati, "spaiati", "numero", spaiati.size() + "");
         xmlWriter.writeClosingTagXML(false);
 
         xmlWriter.writeClosingTagXML(true);

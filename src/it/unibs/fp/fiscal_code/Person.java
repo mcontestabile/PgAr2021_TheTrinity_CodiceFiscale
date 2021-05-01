@@ -132,7 +132,13 @@ public class Person implements Parsable, Writable {
      * @return a string that is date of birth.
      */
     public String getDateOfBirth() {
-        return dateOfBirth.toString();
+        Calendar date = new GregorianCalendar();
+        date.setTime(dateOfBirth);
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH);
+        int day = date.get(Calendar.DAY_OF_MONTH);
+        return year + "-" + (month < 10 ? "0" : "") + month + "-" + (day < 10 ? "0" : "") + day;
+
     }
 
     public Calendar getDateOfBirthCalendar() {
