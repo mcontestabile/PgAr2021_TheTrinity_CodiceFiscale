@@ -33,8 +33,9 @@ public class ManageXML {
             XMLParser xmlParserP = new XMLParser("inputPersone.xml");
             persons = xmlParserP.parseXML(Person.class);
 
-            // calcola codici invalidi
-            // calcola codici spaiati
+            /*
+            It calculates invalid and non-matching fiscal codes
+             */
             XMLParser xmlParserFC = new XMLParser("codiciFiscali.xml");
             codes = xmlParserFC.parseXML(FiscalCode.class);
 
